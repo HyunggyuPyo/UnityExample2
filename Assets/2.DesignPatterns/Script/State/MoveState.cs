@@ -15,6 +15,7 @@ namespace MyProject.State
         {
             Debug.Log("이동 상태 종료");
         }
+
         public override void Update()
         {
             player.text.text = $"{GetType().Name} : {player.moveDistnace:n1}";

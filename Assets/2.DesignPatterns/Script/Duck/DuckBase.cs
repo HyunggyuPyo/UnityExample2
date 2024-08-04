@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MyProject.DuckState
 {
-    public class DuckBase : MonoBehaviour
+    public class DuckBase : IDuck
     {
         public Duck duck;
 
