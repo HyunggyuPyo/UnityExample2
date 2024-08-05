@@ -24,6 +24,7 @@ namespace MyProject
         
         bool isConnected = false;
         private Thread serverMainThread;
+        private List<Thread> serverThreads = new List<Thread>();
 
         public static Queue<string> log = new Queue<string>(); //모든 스레드가 접근할 수 있는 Data영역의 Queue
 
@@ -62,6 +63,7 @@ namespace MyProject
             서버 스레드를 list로 관리하여
             다중 연결이 가능한 서버로 만들어보세요
              */
+            ThreadPool.SetMaxThreads(3, 3);
 
             TcpListener tcpListener = new TcpListener(IPAddress.Parse(ipAddress), port);
             tcpListener.Start(); //tcp 서버를 가동시킨다.

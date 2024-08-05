@@ -32,7 +32,7 @@ namespace MyProject
         private void Awake()
         {
             connectButton.onClick.AddListener(ConnectButtonClick);
-            //messageInput.OnSubmit.AddListener(MessageToServer);
+            messageInput.onSubmit.AddListener(MessageToServer);
         }
 
         public void ConnectButtonClick()
@@ -45,7 +45,7 @@ namespace MyProject
                 clientThread.Start();
                 isConnected = true;
             }
-            else
+            else 
             {
                 //Á¢¼Ó ²÷±â
                 clientThread.Abort();
