@@ -30,4 +30,4 @@ public class NonMonoBehaviourSingeton
             instance = new NonMonoBehaviourSingeton();
         return instance;
     }
-}
+} 
