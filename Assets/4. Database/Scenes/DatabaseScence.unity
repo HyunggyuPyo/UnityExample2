@@ -1539,7 +1539,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &384846906
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1748,8 +1748,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 7, y: -109}
-  m_SizeDelta: {x: -618.2, y: 30}
+  m_AnchoredPosition: {x: 68.05002, y: -109}
+  m_SizeDelta: {x: -496.10004, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &551176046
 MonoBehaviour:
@@ -2505,7 +2505,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &790222292
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2651,6 +2651,13 @@ MonoBehaviour:
   tureSignUpButton: {fileID: 787948252}
   infoText: {fileID: 88436582}
   levelText: {fileID: 1931941768}
+  correctionPanel: {fileID: 384846905}
+  correctionButton: {fileID: 1446353494}
+  trueCorrectionButton: {fileID: 551176046}
+  correctionPw: {fileID: 951089530}
+  correctionName: {fileID: 851858723}
+  correctionProfile: {fileID: 482616467}
+  deleteButton: {fileID: 1057578621}
 --- !u!4 &834693017
 Transform:
   m_ObjectHideFlags: 0
@@ -3300,7 +3307,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uD68C\uC6D0\uAC00\uC785"
+  m_Text: "\uC218\uC815\uC644\uB8CC"
 --- !u!222 &1029990683
 CanvasRenderer:
   m_ObjectHideFlags: 0

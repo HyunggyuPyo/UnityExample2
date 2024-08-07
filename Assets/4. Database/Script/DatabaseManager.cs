@@ -120,6 +120,24 @@ namespace MyProject
             }
         }
 
+        public void InfoChange(UserData data, string passwd, string name, string profile, Action SuccessCallback)
+        {
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = $"UPDATE {tableName} SET pw = {passwd}, name = {name}, PROFILE_TEXT ={profile} WHERE uid ={data.UID}";
+
+            int queryCount = cmd.ExecuteNonQuery();
+            if (queryCount > 0)
+            {
+                SuccessCallback?.Invoke();
+            }
+        }
+
+        public void DeleteId()
+        {
+
+        }
+
         public void LevelUp(UserData data, Action SuccessCallback)
         {
             int level = data.level;

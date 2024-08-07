@@ -27,11 +27,23 @@ namespace MyProject
 
         private UserData userData;
 
+        public GameObject correctionPanel;
+        public Button correctionButton;
+        public Button trueCorrectionButton;
+        public InputField correctionPw;
+        public InputField correctionName;
+        public InputField correctionProfile;
+
+        public Button deleteButton;
+
         void Awake()
         {
             loginButton.onClick.AddListener(LoginButtonClick);
             signUpButton.onClick.AddListener(SignUpButtonClick);
             tureSignUpButton.onClick.AddListener(TrueSignUpButtonClick);
+            correctionButton.onClick.AddListener(CorrectionButtonClick);
+            trueCorrectionButton.onClick.AddListener(TrueCorrectionButtonClick);
+            deleteButton.onClick.AddListener(DeleteId);
         }
 
         public void LoginButtonClick()
@@ -54,6 +66,29 @@ namespace MyProject
             signUPPanel.SetActive(false);
             print("회원가입 성공");
         }
+
+        public void CorrectionButtonClick()
+        {
+            correctionPanel.SetActive(true);
+        }
+
+        public void TrueCorrectionButtonClick()
+        {
+            DatabaseManager.Instance.InfoChange(userData, correctionPw.text, correctionName.text, correctionProfile.text, CorrectioPanelDown);
+        }
+
+        public void CorrectioPanelDown()
+        {
+            correctionPanel.SetActive(false);
+            print("정보수정 완료");
+
+        }
+
+        public void DeleteId()
+        {
+            DatabaseManager.Instance.DeleteId();
+        }
+
 
         public void OnLevelButtonClick()
         {
