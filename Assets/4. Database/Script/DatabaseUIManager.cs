@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace MyProject
 {
-    public class DatabaseUIManager : MonoBehaviour
+    public partial class DatabaseUIManager : MonoBehaviour
     {
         public GameObject loginPanel;
         public GameObject infoPanel;
@@ -36,6 +36,9 @@ namespace MyProject
 
         public Button deleteButton;
 
+        public InputField findInput;
+        public Button findButton;
+
         void Awake()
         {
             loginButton.onClick.AddListener(LoginButtonClick);
@@ -44,6 +47,7 @@ namespace MyProject
             correctionButton.onClick.AddListener(CorrectionButtonClick);
             trueCorrectionButton.onClick.AddListener(TrueCorrectionButtonClick);
             deleteButton.onClick.AddListener(DeleteId);
+            findButton.onClick.AddListener(FindUser);
         }
 
         public void LoginButtonClick()
@@ -79,16 +83,52 @@ namespace MyProject
 
         public void CorrectioPanelDown()
         {
+            userData.name = correctionName.text;
+            userData.proFileText = correctionProfile.text;
+
             correctionPanel.SetActive(false);
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine($"안녕하세요, {userData.name}님");
+            sb.AppendLine($"이메일 : {userData.email}");
+            sb.AppendLine($"직업 : {userData.charClass}");
+            sb.AppendLine($"소개글 : {userData.proFileText}");
+
+            infoText.text = sb.ToString();
+
+            levelText.text = $"레벨 : {userData.level.ToString()}";
             print("정보수정 완료");
 
         }
 
         public void DeleteId()
         {
-            DatabaseManager.Instance.DeleteId();
+            DatabaseManager.Instance.DeleteId(userData.email, DeleteSuccess);
         }
 
+        public void DeleteSuccess()
+        {
+            infoPanel.SetActive(false);
+            loginPanel.SetActive(true);
+        }
+
+        public void FindUser()
+        {
+            DatabaseManager.Instance.FindUser(findInput.text, FindSuccess);
+        }
+
+        private void FindSuccess(UserData data)
+        {
+            print("찾기 완");
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine($"안녕하세요, {data.name}님");
+            sb.AppendLine($"이메일 : {data.email}");
+            sb.AppendLine($"직업 : {data.charClass}");
+            sb.AppendLine($"소개글 : {data.proFileText}");
+
+            infoText.text = sb.ToString();
+
+            levelText.text = $"레벨 : {data.level.ToString()}";
+        }
 
         public void OnLevelButtonClick()
         {

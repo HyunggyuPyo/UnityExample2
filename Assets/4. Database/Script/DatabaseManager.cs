@@ -9,9 +9,9 @@ using System.Text;
 
 namespace MyProject
 {
-    public class DatabaseManager : MonoBehaviour
+    public partial class DatabaseManager : MonoBehaviour
     {
-        private string serverIP = "127.0.0.1";
+        private string serverIP = "127.0.0.1"; //52.79.249.166
         private string dbName = "game";
         private string tableName = "users";
         private string rootPasswd = "1234"; //[SerializeField] 써서 입력받든 / 테스트 시에 활용할 수 있지만 보안에 취약하므로 주의
@@ -62,12 +62,11 @@ namespace MyProject
             //}
             //sha256.Dispose();
 
-            print(pwhash);
-
+            //print(pwhash);
 
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = conn;
-            cmd.CommandText = $"SELECT * FROM {tableName} WHERE email='{email}' AND pw='{passwd}'";
+            cmd.CommandText = $"SELECT * FROM {tableName} WHERE email='{email}' AND pw='{pwhash}'";
 
             MySqlDataAdapter dataAdapter = new MySqlDataAdapter(cmd);
             DataSet set = new DataSet();
@@ -108,7 +107,17 @@ namespace MyProject
             dataAdapter.Fill(set);
             bool emailPossible = set.Tables.Count > 0 && set.Tables[0].Rows.Count > 0;
 
-            if(!emailPossible)
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] hashArray = sha256.ComputeHash(Encoding.UTF8.GetBytes(passwd));
+                passwd = "";
+                foreach (byte b in hashArray)
+                {
+                    passwd += $"{b:X2}"; 
+                }
+            }
+
+            if (!emailPossible)
             {
                 cmd.CommandText = $"INSERT INTO users (email, pw, name) VALUES ('{email}', '{passwd}', '{name}')";
                 cmd.ExecuteNonQuery();
@@ -124,7 +133,7 @@ namespace MyProject
         {
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = conn;
-            cmd.CommandText = $"UPDATE {tableName} SET pw = {passwd}, name = {name}, PROFILE_TEXT ={profile} WHERE uid ={data.UID}";
+            cmd.CommandText = $"UPDATE {tableName} SET pw = '{passwd}', name = '{name}', PROFILE_TEXT ='{profile}' WHERE uid ='{data.UID}'";
 
             int queryCount = cmd.ExecuteNonQuery();
             if (queryCount > 0)
@@ -133,8 +142,44 @@ namespace MyProject
             }
         }
 
-        public void DeleteId()
+        public void DeleteId(string email, Action SuccessCallback)
         {
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = $"DELETE FROM {tableName} WHERE email ='{email}'";
+
+            int queryCount = cmd.ExecuteNonQuery();
+
+            if (queryCount > 0)
+            {
+                SuccessCallback?.Invoke();
+            }
+        }
+
+        public void FindUser(string email, Action<UserData> SuccessCallback)
+        {
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = $"SELECT * FROM users WHERE email='{email}'";
+
+            MySqlDataAdapter dataAdapter = new MySqlDataAdapter(cmd);
+            DataSet set = new DataSet();
+
+            dataAdapter.Fill(set);
+            bool emailPossible = set.Tables.Count > 0 && set.Tables[0].Rows.Count > 0;
+
+            if (emailPossible)
+            {
+                DataRow row = set.Tables[0].Rows[0];
+                UserData data = new UserData(row);
+
+                SuccessCallback?.Invoke(data);
+                print("아이디 찾았어요!");
+            }
+            else
+            {
+                print("그런 아이디 없는데요");
+            }
 
         }
 
